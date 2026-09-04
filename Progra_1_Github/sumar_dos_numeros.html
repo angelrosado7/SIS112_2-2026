@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora UCB - Suma</title>
+    <style>
+        :root {
+            --ucb-blue: #002B66;
+            --ucb-gold: #FFC72C;
+            --ucb-blue-light: #004098;
+            --bg-color: #F4F6F9;
+            --text-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 43, 102, 0.15);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            border-top: 6px solid var(--ucb-gold);
+        }
+
+        .card-header {
+            background-color: var(--ucb-blue);
+            color: #ffffff;
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-header p {
+            font-size: 0.85rem;
+            color: var(--ucb-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-body {
+            padding: 28px 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--ucb-blue);
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #E0E6ED;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--ucb-blue);
+        }
+
+        .btn-calc {
+            width: 100%;
+            background-color: var(--ucb-blue);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .btn-calc:hover {
+            background-color: var(--ucb-blue-light);
+        }
+
+        .btn-calc:active {
+            transform: scale(0.98);
+        }
+
+        .result-box {
+            margin-top: 24px;
+            background-color: #F8FAF9;
+            border-left: 4px solid var(--ucb-gold);
+            padding: 16px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--ucb-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Calculadora de Suma</h2>
+            <p>Universidad Católica Boliviana</p>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="num1">Primer Número (a)</label>
+                <input type="number" id="num1" placeholder="Ingrese un número" oninput="calcularSuma()">
+            </div>
+            
+            <div class="form-group">
+                <label for="num2">Segundo Número (b)</label>
+                <input type="number" id="num2" placeholder="Ingrese un número" oninput="calcularSuma()">
+            </div>
+
+            <button class="btn-calc" onclick="calcularSuma()">Calcular Resultado</button>
+
+            <div class="result-box">
+                <div class="result-title">Resultado de la suma</div>
+                <div class="result-value" id="resultado">0</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tu función JS original
+        function suma(a, b) {
+            return a + b;
+        }
+
+        // Función dinámica para manejar la interfaz
+        function calcularSuma() {
+            const val1 = parseFloat(document.getElementById('num1').value) || 0;
+            const val2 = parseFloat(document.getElementById('num2').value) || 0;
+            
+            const total = suma(val1, val2);
+            
+            document.getElementById('resultado').innerText = total;
+        }
+    </script>
+</body>
+</html>
