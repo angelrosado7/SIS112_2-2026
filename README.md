@@ -1,4 +1,4 @@
-# SIS-112: Programación I
+# SIS-112: Programación I (2-2026) UCB
 
 ![Universidad Católica Boliviana](https://img.shields.io/badge/UCB-San%20Pablo-blue?style=for-the-badge)
 ![Carrera](https://img.shields.io/badge/Carrera-Ingeniería%20Industrial-orange?style=for-the-badge)
