@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación I - UCB</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --ucb-blue: #002B49;
+            --ucb-gold: #D4AF37;
+            --ucb-gold-hover: #AA8B22;
+            --bg-light: #F4F6F9;
+            --sidebar-width: 280px;
+            --text-color: #2D3748;
+            --card-bg: #FFFFFF;
+            --code-bg: #1E1E1E;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--bg-light);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--ucb-blue);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            padding: 24px;
+            text-align: center;
+            border-bottom: 3px solid var(--ucb-gold);
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .brand h1 {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .brand span {
+            color: var(--ucb-gold);
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 20px 0;
+            flex-grow: 1;
+        }
+
+        .nav-links li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: #E2E8F0;
+            text-decoration: none;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-links li a:hover, .nav-links li a.active {
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--ucb-gold);
+            border-left-color: var(--ucb-gold);
+        }
+
+        .nav-links li a i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, var(--ucb-blue), #004070);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--ucb-gold);
+        }
+
+        .unit-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .unit-title {
+            font-size: 1.6rem;
+            color: var(--ucb-blue);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 10px;
+        }
+
+        .unit-title i {
+            color: var(--ucb-gold);
+            margin-right: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Code Block Styles */
+        .code-container {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background-color: #2D2D2D;
+            color: #AAA;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        pre {
+            padding: 15px;
+            color: #D4D4D4;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+
+        .code-keyword { color: #569CD6; }
+        .code-function { color: #DCDCAA; }
+        .code-string { color: #CE9178; }
+        .code-number { color: #B5CEA8; }
+        .code-comment { color: #57A64A; }
+
+        /* Interactive Runner */
+        .btn-run {
+            background-color: var(--ucb-gold);
+            color: var(--ucb-blue);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-run:hover {
+            background-color: var(--ucb-gold-hover);
+        }
+
+        .code-output {
+            background-color: #111;
+            color: #00FF00;
+            font-family: monospace;
+            padding: 10px 15px;
+            border-top: 1px solid #333;
+            display: none;
+            white-space: pre-wrap;
+        }
+
+        /* Color Palette Box */
+        .color-palette {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .color-swatch {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .swatch-blue { background-color: var(--ucb-blue); }
+        .swatch-gold { background-color: var(--ucb-gold); color: var(--ucb-blue); }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="brand">
+            <h1>UCB</h1>
+            <span>Programación I</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#colores"><i class="fas fa-palette"></i> Colores UCB</a></li>
+            <li><a href="#enteros"><i class="fas fa-calculator"></i> Unidad: Enteros</a></li>
+            <li><a href="#cadenas"><i class="fas fa-quote-right"></i> Unidad: Cadenas</a></li>
+            <li><a href="#listas"><i class="fas fa-list-ol"></i> Unidad: Listas</a></li>
+            <li><a href="#diccionarios"><i class="fas fa-th"></i> Unidad: Diccionarios</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header-banner">
+            <h1>Asignatura: Programación I</h1>
+            <p>Portal de estudio de la Universidad Católica Boliviana "San Pablo"</p>
+        </div>
+
+        <!-- Colores de la UCB -->
+        <section id="colores" class="unit-section">
+            <h2 class="unit-title"><i class="fas fa-palette"></i> Colores Institucionales de la UCB</h2>
+            <p>Identidad visual utilizada en los estilos CSS de esta plataforma educativa:</p>
+            <div class="color-palette">
+                <div class="color-swatch swatch-blue">
+                    Azul Institucional<br>
+                    <code>#002B49</code>
+                </div>
+                <div class="color-swatch swatch-gold">
+                    Oro Institucional<br>
+                    <code>#D4AF37</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Unidad: Enteros -->
+        <section id="enteros" class="unit-section">
+            <h2 class="unit-title"><i class="fas fa-calculator"></i> Unidad: Enteros</h2>
+            <p>Los enteros representa números sin parte decimal (positivos, negativos y el cero). Son la base para contadores, iteraciones y operaciones matemáticas fundamentales.</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Python 3 - Ejemplo Enteros</span>
+                    <button class="btn-run" onclick="runCode('out-enteros', 'Resultado:\nSuma: 15\nMultiplicación: 50\nDivisión Entera: 2')">Ejecutar</button>
+                </div>
+                <pre><code><span class="code-comment"># Operaciones básicas con enteros</span>
+a = <span class="code-number">10</span>
+b = <span class="code-number">5</span>
+
+suma = a + b
+multiplicacion = a * b
+division_entera = a // b  <span class="code-comment"># Retorna la parte entera</span>
+
+<span class="code-function">print</span>(<span class="code-string">f"Suma: {suma}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"Multiplicación: {multiplicacion}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"División Entera: {division_entera}"</span>)</code></pre>
+                <div id="out-enteros" class="code-output"></div>
+            </div>
+        </section>
+
+        <!-- Unidad: Cadenas -->
+        <section id="cadenas" class="unit-section">
+            <h2 class="unit-title"><i class="fas fa-quote-right"></i> Unidad: Cadenas (Strings)</h2>
+            <p>Secuencias de caracteres encerradas entre comillas. Se utilizan para manipular texto, generar mensajes y procesar entrada de datos.</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Python 3 - Ejemplo Cadenas</span>
+                    <button class="btn-run" onclick="runCode('out-cadenas', 'Resultado:\nTexto en mayúsculas: PROGRAMACIÓN I - UCB\nLongitud de la cadena: 18\nPrimer carácter: P')">Ejecutar</button>
+                </div>
+                <pre><code><span class="code-comment"># Manipulación de cadenas de texto</span>
+materia = <span class="code-string">"Programación I - UCB"</span>
+
+<span class="code-comment"># Métodos comunes</span>
+mayusculas = materia.<span class="code-function">upper</span>()
+longitud = <span class="code-function">len</span>(materia)
+primer_caracter = materia[<span class="code-number">0</span>]
+
+<span class="code-function">print</span>(<span class="code-string">f"Texto en mayúsculas: {mayusculas}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"Longitud de la cadena: {longitud}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"Primer carácter: {primer_caracter}"</span>)</code></pre>
+                <div id="out-cadenas" class="code-output"></div>
+            </div>
+        </section>
+
+        <!-- Unidad: Listas -->
+        <section id="listas" class="unit-section">
+            <h2 class="unit-title"><i class="fas fa-list-ol"></i> Unidad: Listas</h2>
+            <p>Estructuras de datos mutables y ordenadas que permiten almacenar colecciones de elementos heterogéneos bajo una misma variable.</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Python 3 - Ejemplo Listas</span>
+                    <button class="btn-run" onclick="runCode('out-listas', 'Resultado:\nLista completa: [\'Sistemas\', \'Telecomunicaciones\', \'Industrial\', \'Mecatrónica\']\nPrimera carrera: Sistemas')">Ejecutar</button>
+                </div>
+                <pre><code><span class="code-comment"># Creación y manipulación de listas</span>
+carreras = [<span class="code-string">"Sistemas"</span>, <span class="code-string">"Telecomunicaciones"</span>, <span class="code-string">"Industrial"</span>]
+
+<span class="code-comment"># Agregar elemento al final</span>
+carreras.<span class="code-function">append</span>(<span class="code-string">"Mecatrónica"</span>)
+
+<span class="code-function">print</span>(<span class="code-string">f"Lista completa: {carreras}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"Primera carrera: {carreras[0]}"</span>)</code></pre>
+                <div id="out-listas" class="code-output"></div>
+            </div>
+        </section>
+
+        <!-- Unidad: Diccionarios y Matrices -->
+        <section id="diccionarios" class="unit-section">
+            <h2 class="unit-title"><i class="fas fa-th"></i> Unidad: Diccionarios (Matrices)</h2>
+            <p>Colecciones desordenadas de pares <code>clave: valor</code>. Son ideales para mapear estructuras complejas, representar datos tabulares y modelar matrices dispersas.</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Python 3 - Ejemplo Diccionarios y Matrices</span>
+                    <button class="btn-run" onclick="runCode('out-diccionarios', 'Resultado:\nNombre: Juan Pérez\nNota final: 95\nRepresentación de matriz 2x2 usando diccionario:\nValor en fila 0, col 1: 5')">Ejecutar</button>
+                </div>
+                <pre><code><span class="code-comment"># Diccionario básico</span>
+estudiante = {
+    <span class="code-string">"nombre"</span>: <span class="code-string">"Juan Pérez"</span>,
+    <span class="code-string">"carrera"</span>: <span class="code-string">"Sistemas"</span>,
+    <span class="code-string">"nota"</span>: <span class="code-number">95</span>
+}
+
+<span class="code-function">print</span>(<span class="code-string">f"Nombre: {estudiante['nombre']}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"Nota final: {estudiante['nota']}"</span>)
+
+<span class="code-comment"># Representación de una Matriz usando Diccionario (matriz dispersa)</span>
+matriz = {
+    (<span class="code-number">0</span>, <span class="code-number">0</span>): <span class="code-number">1</span>, (<span class="code-number">0</span>, <span class="code-number">1</span>): <span class="code-number">5</span>,
+    (<span class="code-number">1</span>, <span class="code-number">0</span>): <span class="code-number">3</span>, (<span class="code-number">1</span>, <span class="code-number">1</span>): <span class="code-number">8</span>
+}
+
+<span class="code-function">print</span>(<span class="code-string">"\nRepresentación de matriz 2x2 usando diccionario:"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"Valor en fila 0, col 1: {matriz[(0, 1)]}"</span>)</code></pre>
+                <div id="out-diccionarios" class="code-output"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript para funcionalidad interactiva -->
+    <script>
+        // Función para simular la ejecución de código
+        function runCode(outputId, resultText) {
+            const outputElement = document.getElementById(outputId);
+            outputElement.style.display = "block";
+            outputElement.textContent = resultText;
+        }
+
+        // Resaltar navegación según el scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.unit-section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
